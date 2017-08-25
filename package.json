@@ -15,7 +15,9 @@
     "dev:client": "webpack-dev-server --config webpack.config.client.js"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "express": "^4.15.0",
+    "highcharts": "^5.0.14",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
