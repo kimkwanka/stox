@@ -84,13 +84,9 @@ export default (req, res, next) => {
     // Not a React Router route, so let express handle it
     next();
   } else {
-    const user = {
-      name: 'Bob the User',
-      authenticated: true,
-    };
-    const state = { user };
+    const state = { };
     const store = createStore(reducers, state);
-
+    console.log(store.getState())
     res.set('Content-Type', 'text/html')
       .status(200)
       .end(renderPage(matchedRoute, store));
