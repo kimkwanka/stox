@@ -9,6 +9,8 @@ import App from '../client/App';
 import routes from '../shared/routes';
 import reducers from '../client/reducers';
 
+import getStockData from './quandl';
+
 const fs = require('fs');
 
 let webpackAssets = null;
@@ -61,6 +63,8 @@ const renderPage = (matchedRoute, store) => {
   `;
 };
 
+// TODO: Don't retrieve the data over and over again on page load but cache it
+
 export default (req, res, next) => {
   let matchedRoute = null;
 
@@ -84,11 +88,14 @@ export default (req, res, next) => {
     // Not a React Router route, so let express handle it
     next();
   } else {
-    const state = { };
-    const store = createStore(reducers, state);
-    console.log(store.getState())
-    res.set('Content-Type', 'text/html')
+    const stockNames = ['GOOGL', 'AAPL', 'YHOO'];
+    const results = Promise.all(stockNames.map(stockName => getStockData(stockName)));
+    results.then((stocks) => {
+      const state = { stocks };
+      const store = createStore(reducers, state);
+      res.set('Content-Type', 'text/html')
       .status(200)
       .end(renderPage(matchedRoute, store));
+    });
   }
 };

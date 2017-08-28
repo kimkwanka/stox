@@ -61,14 +61,9 @@ const StocksContainer = Component => (
     componentDidMount() {
       this.chart = createChart();
       this.chart.showLoading();
-      getAllStockData(this.stocks, (series) => {
-        this.series = series;
-        this.series.forEach((serie) => {
-          this.chart.addSeries(serie);
-        });
-        this.chart.hideLoading();
-        this.forceUpdate();
-      });
+      this.props.stocks.forEach(stock => this.chart.addSeries(stock));
+      this.chart.hideLoading();
+      this.forceUpdate();
     }
     componentWillUnmount() {
       if (this.chart) {

@@ -3,7 +3,7 @@ import path from 'path';
 import bodyParser from 'body-parser';
 
 import reactRoutes from './reactRoutes';
-import stockAPI from './stockAPI';
+import api from './api';
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, '../../dist/public')));
 app.use('*', reactRoutes);
 
 // Example api route
-stockAPI(app);
+api(app);
 
 // 404
 app.get('*', (req, res) => {

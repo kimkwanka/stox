@@ -1,7 +1,4 @@
-const stocks = (state = [
-  { name: 'GOOGL', description: 'Google' },
-  { name: 'YAHOO', description: 'Yahoo' },
-], action) => {
+const stocks = (state = [], action) => {
   switch (action.type) {
     case 'ADD_STOCK': {
       let newState = state.slice(0);
