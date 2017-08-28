@@ -1,9 +1,15 @@
 import express from 'express';
 import path from 'path';
+import bodyParser from 'body-parser';
+
 import reactRoutes from './reactRoutes';
-import api from './api';
+import stockAPI from './stockAPI';
 
 const app = express();
+
+// Enable body-paser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Serve static assets
 app.use(express.static(path.join(__dirname, '../../dist/public')));
@@ -12,7 +18,7 @@ app.use(express.static(path.join(__dirname, '../../dist/public')));
 app.use('*', reactRoutes);
 
 // Example api route
-api(app);
+stockAPI(app);
 
 // 404
 app.get('*', (req, res) => {

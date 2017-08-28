@@ -10,25 +10,9 @@ import actions from '../actions';
 const { addStock, removeStock } = actions;
 
 const getStockData = (stockName, callback) => {
-  const start = new Date(new Date().getTime() - (2 * 86400 * 1000));
-  start.setFullYear(start.getFullYear() - 1);
-  const end = new Date(new Date().getTime());
-
-  const startDateStr = `${start.getFullYear()}-${start.getMonth()}-${start.getDate()}`;
-  const endDateStr = `${end.getFullYear()}-${end.getMonth()}-${end.getDate()}`;
-
-  axios.get(`https://www.quandl.com/api/v3/datasets/WIKI/${stockName}/data.json?order=asc&column_index=4&start_date=${startDateStr}&end_date=${endDateStr}&api_key=2VY7hA7ReAi-dk1y-UWY`)
+  axios.post('/api', { stockName })
   .then((res) => {
-    const stockData = res.data.dataset_data.data.map(
-      d => ([new Date(d[0]).getTime(), d[1]]),
-    );
-    callback({
-      name: stockName,
-      tooltip: {
-        valueDecimals: 2,
-      },
-      data: stockData,
-    });
+    callback(res.data);
   })
   .catch((err) => {
     console.log('ERR:', err);
