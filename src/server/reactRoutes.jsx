@@ -63,9 +63,10 @@ const renderPage = (matchedRoute, store) => {
   `;
 };
 
-// TODO: Don't retrieve the data over and over again on page load but cache it
+let defaultStore = null;
+let defaultState = null;
 
-export default (req, res, next) => {
+const handleReactRoutes = (req, res, next) => {
   let matchedRoute = null;
 
     // Check if the requested url is one of the React Router routes from routes.js
@@ -88,14 +89,24 @@ export default (req, res, next) => {
     // Not a React Router route, so let express handle it
     next();
   } else {
-    const stockNames = ['GOOGL', 'AAPL', 'YHOO'];
-    const results = Promise.all(stockNames.map(stockName => getStockData(stockName)));
-    results.then((stocks) => {
-      const state = { stocks };
-      const store = createStore(reducers, state);
-      res.set('Content-Type', 'text/html')
-      .status(200)
-      .end(renderPage(matchedRoute, store));
-    });
+    res.set('Content-Type', 'text/html')
+    .status(200)
+    .end(renderPage(matchedRoute, defaultStore));
   }
 };
+
+const initReactRoutes = new Promise((resolve, reject) => {
+  const stockNames = ['GOOGL', 'AAPL', 'YHOO'];
+  const results = Promise.all(stockNames.map(stockName => getStockData(stockName)));
+  results.then((stocks) => {
+    defaultState = { stocks };
+    defaultStore = createStore(reducers, defaultState);
+    console.log('React routes successfully initialized.');
+    resolve(handleReactRoutes);
+  })
+  .catch((err) => {
+    reject(err);
+  });
+});
+
+export default initReactRoutes;
