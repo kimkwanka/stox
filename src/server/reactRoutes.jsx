@@ -2,14 +2,12 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import { Helmet } from 'react-helmet';
 
 import App from '../client/App';
 import routes from '../shared/routes';
-import reducers from '../client/reducers';
 
-import getStockData from './quandl';
+import initServerStore from './serverStore';
 
 const fs = require('fs');
 
@@ -63,10 +61,7 @@ const renderPage = (matchedRoute, store) => {
   `;
 };
 
-let defaultStore = null;
-let defaultState = null;
-
-const handleReactRoutes = (req, res, next) => {
+const handleReactRoutes = store => (req, res, next) => {
   let matchedRoute = null;
 
     // Check if the requested url is one of the React Router routes from routes.js
@@ -91,18 +86,14 @@ const handleReactRoutes = (req, res, next) => {
   } else {
     res.set('Content-Type', 'text/html')
     .status(200)
-    .end(renderPage(matchedRoute, defaultStore));
+    .end(renderPage(matchedRoute, store));
   }
 };
 
 const initReactRoutes = new Promise((resolve, reject) => {
-  const stockNames = ['GOOGL', 'AAPL', 'YHOO'];
-  const results = Promise.all(stockNames.map(stockName => getStockData(stockName)));
-  results.then((stocks) => {
-    defaultState = { stocks };
-    defaultStore = createStore(reducers, defaultState);
-    console.log('React routes successfully initialized.');
-    resolve(handleReactRoutes);
+  initServerStore
+  .then((serverStore) => {
+    resolve(handleReactRoutes(serverStore));
   })
   .catch((err) => {
     reject(err);

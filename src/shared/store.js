@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+/* eslint-disable import/no-extraneous-dependencies */
 import { createStore, applyMiddleware, compose } from 'redux';
 import logger from 'redux-logger';
 

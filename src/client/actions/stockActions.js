@@ -5,9 +5,9 @@ export function addStock(stock) {
   };
 }
 
-export function removeStock(stock) {
+export function removeStock(stockName) {
   return {
     type: 'REMOVE_STOCK',
-    stock,
+    stockName,
   };
 }
