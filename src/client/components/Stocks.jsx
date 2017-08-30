@@ -7,20 +7,23 @@ import Highcharts from 'highcharts/highstock';
 import store from '../../shared/store';
 import socket from '../socket';
 
-let updateErrorMsg = null;
+let updateErrorMsgFunc = null;
 
 if (typeof window !== 'undefined') {
   socket.on('connect', () => {
     console.log('Connected to server.');
   });
+
   socket.on('ACTION_SUCCESS', (action) => {
     store.dispatch(action);
   });
+
   socket.on('ACTION_OTHER_CLIENT', (action) => {
     store.dispatch(action);
   });
+
   socket.on('ACTION_ERROR', (error) => {
-    updateErrorMsg(error.msg);
+    updateErrorMsgFunc(error.msg);
   });
 }
 
@@ -48,7 +51,7 @@ class Stocks extends React.Component {
     this.errorMsg = '';
     this.chart = null;
     this.newStockName = 'YHOO';
-    updateErrorMsg = this.updateErrorMsg.bind(this);
+    updateErrorMsgFunc = this.updateErrorMsg.bind(this);
   }
 
   createChart(stocks) {
