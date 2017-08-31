@@ -1,7 +1,7 @@
 {
-  "name": "niru",
+  "name": "stox",
   "version": "1.0.0",
-  "description": "Universal / isomorphic fullstack boilerplate",
+  "description": "Fullstack stock market app",
   "main": "client.js",
   "license": "MIT",
   "scripts": {

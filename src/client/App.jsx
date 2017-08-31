@@ -23,10 +23,10 @@ const App = ({ serverRoute }) => {
       <div className="App">
         <Helmet
           htmlAttributes={{ lang: 'en' }}
-          titleTemplate="niru | %s"
+          titleTemplate="stox | %s"
           titleAttributes={{ itemprop: 'name', lang: 'en' }}
           meta={[
-            { name: 'description', content: 'Universal fullstack boilerplate' },
+            { name: 'description', content: 'Fullstack stock market app' },
           ]}
         />
         <Header />

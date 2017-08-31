@@ -5,13 +5,12 @@ const year = new Date().getFullYear();
 const Footer = () => (
   <footer>
     <div className="container flex-column items-center">
-      <h5 className="margin-top-small">This is a sticky footer!</h5>
-      <h5>
+      <h5 className="margin-top-small">
         <a
-          href="https://github.com/kimkwanka/niru"
+          href="https://github.com/kimkwanka/stox"
           target="_blank" rel="noopener noreferrer"
         >
-        niru
+        stox
         </a> by Kim Kwanka &copy; {year}
       </h5>
     </div>
