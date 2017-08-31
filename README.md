@@ -9,4 +9,4 @@ in realtime and view their corresponding trend lines.
 + Clone the repo
 + ```yarn``` to install dependencies
 + Create a ```.env``` file which exposes a ```QUANDL_API_KEY``` env variable with a suitable Quandl API key.
-+ ```yarn dev``` to run in development mode or ```yarn start``` to run in production mode.
++ ```yarn dev``` to run in development mode or ```yarn buildstart``` to run in production mode.
